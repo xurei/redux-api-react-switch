@@ -1,0 +1,36 @@
+{
+	"plugins": [
+		"promise",
+		"jsx",
+		"react"
+	],
+
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"rules": {
+		"no-alert": "warn",
+		"no-eval": "error",
+		"no-const-assign": "error",
+		"semi": "warn",
+		"prefer-const": "warn",
+		"no-unused-vars": "warn",
+		"strict": "error",
+		"eqeqeq": "warn",
+		"curly": "warn",
+		"quotes": ["warn", "single"],
+
+		"promise/always-return": "error",
+		"promise/no-return-wrap": "error",
+		"promise/param-names": "error",
+		"promise/catch-or-return": "error",
+		"promise/no-native": "off",
+		"promise/no-nesting": "warn",
+		"promise/no-promise-in-callback": "warn",
+		"promise/no-callback-in-promise": "warn"
+	}
+}
