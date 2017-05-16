@@ -1,0 +1,17 @@
+{
+  "name": "redux-api-react-switch",
+  "version": "1.0.0",
+  "description": "Show different content based on the state of the resource",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require babel-core/register tests"
+  },
+  "keywords": [
+    "redux",
+    "react",
+    "rest",
+    "switch"
+  ],
+  "author": "Olivier Bourdoux",
+  "license": "MIT"
+}
