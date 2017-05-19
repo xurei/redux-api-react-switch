@@ -1,4 +1,6 @@
 node_modules
+.wercker
 *.iml
-*.idea
+.idea
 /lab
+/coverage
