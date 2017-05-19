@@ -24,7 +24,7 @@ const React = require("react");
 const ReactRedux = require('react-redux');
 
 import { 
-  Switch as PropSwitch, 
+  Switch, 
   Init, 
   FirstFetch, 
   Fetched,
@@ -35,13 +35,13 @@ class MyComponent extends React.Component {
   render() {
     return (
       <div>
-        <PropSwitch state={this.props.rest_item}>
+        <Switch state={this.props.rest_item}>
           <Init>Initial state, not pending</Init>
           <FirstFetch>First fetch pending</FirstFetch>
           <Fetched>Data fetched : {JSON.stringify(this.props.rest_item)}</Fetched>
           <NextFetch>Another fetch pending. Current data : {JSON.stringify(this.props.rest_item)}</NextFetch>
           <Error>An error occured : {JSON.stringify(this.props.rest_item.error)}</Error>
-        </PropSwitch>
+        </Switch>
       </div>
     )
   }
@@ -50,7 +50,7 @@ class MyComponent extends React.Component {
 function mapStateToProps(state) {
   return {
     rest_item: state.rest_item
-    /*
+    /**
     rest_item must have the structure below (from `redux-api`). 
     If your state doesn't provide this structure directly, you should adapt the object here
     {
@@ -67,3 +67,21 @@ module.exports = ReactRedux.connect(
   mapStateToProps
 )(MyComponent);
 ```
+
+## Components
+
+The Main component is `<Switch>`. 
+It takes only one prop : `state`. 
+It can only contains the subcomponent described below.
+
+There are five "atomic" subcomponents : 
+- `<Init>`       : The initial state. The data has not been fetched yet and no HTTP request is ongoing.
+- `<FirstFetch>` : This state is shown when the first HTTP request is ongoing.
+- `<Fetched>`    : The data has been fetched successfully. No HTTP request is ongoing.
+- `<NextFetch>`  : The data has already been fetched, but a new HTTP request is ongoing.
+- `<Error>`      : An error occured.
+
+As a complement, there are also some "combined" subcomponents :
+- `<NotFetched>`  === `<Init + FirstFetch>`
+- `<AnyFetch>`    === `<FirstFetch + NextFetch>`
+- `<FetchedOnce>` === `<Fetched + NextFetch>`
