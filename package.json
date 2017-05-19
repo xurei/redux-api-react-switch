@@ -26,6 +26,11 @@
   ],
   "author": "Olivier Bourdoux",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xurei/redux-api-react-switch.git"
+  },
+  "homepage": "https://github.com/xurei/redux-api-react-switch",
   "dependencies": {
     "react": "^15.5.4"
   },
