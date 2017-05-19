@@ -8,12 +8,15 @@ Show different content based on the state of the resource
 
 ## Motivation
 
-Using Redux with REST APIs is complicated. Depending on the state of the API call (pending, fetched, errored...), your UI might change.
+Using Redux with REST APIs is complicated. 
+Depending on the state of the API call (pending, fetched, errored...), your UI should change.
+Making it easy to read and understand can be complex. Also, as many component may rely on the same state variable, 
+handling it inside each of them leads to many code redundancy. 
 
-This package helps you write your React components in a clear & readable way. 
+This package helps you use REST state variables in a more readable way and prevents code redundancy as much as possible. 
 
 It is meant to be used with [redux-api](https://www.npmjs.com/package/redux-api),
-but it can be used with any other library.
+but it can be used with any other library. See the example below.
 
 ## Usage
 ```jsx harmony
