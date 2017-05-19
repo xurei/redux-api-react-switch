@@ -1,8 +1,11 @@
 import React from 'react';
 import chai, { expect } from 'chai';
-import chaiEnzyme from 'chai-enzyme'
+import chaiEnzyme from 'chai-enzyme';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 chai.use(chaiEnzyme());
+chai.use(sinonChai);
 
 import { Switch as PropSwitch, Init as PropInit, FirstFetch as PropFirstFetch, Fetched as PropFetched,
 	NextFetch as PropNextFetch, FetchedOnce as PropFetchedOnce, AnyFetch as PropAnyFetch,
@@ -37,6 +40,46 @@ describe('<PropSwitch/>', function() {
 			//Execute + Verify
 			shallow(<PropSwitch state={{loading:true, sync:false}}/>);
 			done();
+		});
+	});
+	
+	describe('shouldComponentUpdate()', function() {
+		const shouldComponentUpdate = sinon.spy(PropSwitch.prototype, 'shouldComponentUpdate');
+		
+		describe('when `state` didn\'t change', function() {
+			it('should return false', function(done) {
+				//Prepare
+				shouldComponentUpdate.reset();
+				const component = shallow(<PropSwitch state={{loading:true, sync:false}}/>);
+				
+				//Execute
+				component.setProps({
+					state: {loading:true, sync:false}
+				});
+				
+				//Verify
+				expect(shouldComponentUpdate).to.have.been.callCount(1);
+				expect(shouldComponentUpdate).to.have.returned(false);
+				done();
+			});
+		});
+		
+		describe('when `state` didn\'t change', function() {
+			it('should return false', function(done) {
+				//Prepare
+				shouldComponentUpdate.reset();
+				const component = shallow(<PropSwitch state={{loading:true, sync:false}}/>);
+				
+				//Execute
+				component.setProps({
+					state: {loading:true, sync:true}
+				});
+				
+				//Verify
+				expect(shouldComponentUpdate).to.have.been.callCount(1);
+				expect(shouldComponentUpdate).to.have.returned(true);
+				done();
+			});
 		});
 	});
 	
