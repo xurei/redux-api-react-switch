@@ -1,5 +1,8 @@
 # redux-api-react-switch
+[![npm](https://img.shields.io/npm/v/redux-api-react-switch.svg)](https://github.com/xurei/redux-api-react-switch)
 [![Wercker](https://img.shields.io/wercker/ci/wercker/docs.svg)](https://app.wercker.com/xurei/redux-api-react-switch/runs)
+[![Codecov](https://img.shields.io/codecov/c/github/xurei/redux-api-react-switch.svg)](https://github.com/xurei/redux-api-react-switch)
+[![GitHub issues](https://img.shields.io/github/issues/xurei/redux-api-react-switch.svg)](https://github.com/xurei/redux-api-react-switch/issues)
 
 Show different content based on the state of the resource
 
@@ -29,7 +32,7 @@ class MyComponent extends React.Component {
   render() {
     return (
       <div>
-        <PropSwitch prop={this.props.rest_item}>
+        <PropSwitch state={this.props.rest_item}>
           <Init>Initial state, not pending</Init>
           <FirstFetch>First fetch pending</FirstFetch>
           <Fetched>Data fetched : {JSON.stringify(this.props.rest_item)}</Fetched>
@@ -45,11 +48,12 @@ function mapStateToProps(state) {
   return {
     rest_item: state.rest_item
     /*
-    rest_item must have this structure :
+    rest_item must have the structure below (from `redux-api`). 
+    If your state doesn't provide this structure directly, you should adapt the object here
     {
       loading: Boolean,
       sync: Boolean,
-      data: Object,
+      data: Object or undefined,
       error: Any
     }
     */

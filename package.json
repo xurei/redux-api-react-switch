@@ -1,12 +1,12 @@
 {
   "name": "redux-api-react-switch",
   "version": "1.0.0",
-  "description": "Show different content based on the state of the resource",
+  "description": "A React+Redux component to work easily with REST states",
   "main": "index.js",
   "scripts": {
     "pretest": "node_modules/.bin/eslint .",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register tests",
-    "coverage": "node_modules/.bin/babel-node ./node_modules/.bin/isparta cover --include 'lib/**/*.js' _mocha -- tests",
+    "coverage": "node_modules/.bin/babel-node ./node_modules/.bin/isparta cover --include 'lib/**/*.js' _mocha -- --reporter dot tests",
     "postcoverage": "node_modules/.bin/codecov --token=42065489-c586-4c0c-89df-036aa1c18488"
   },
   "config": {

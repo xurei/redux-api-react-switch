@@ -22,26 +22,26 @@ console.error = function(warning) {
 };
 
 describe('<PropSwitch/>', function() {
-	describe('without `prop`', function() {
+	describe('without `state`', function() {
 		it('should throw', function(done) {
 			//Execute + Verify
-			expect(() => shallow(<PropSwitch/>)).to.throw(Error);
+			expect(() => shallow(<PropSwitch/>)).to.throw(Error, 'requires the prop \`state\`');
 			done();
 		});
 	});
 	
-	describe('with `prop`', function() {
+	describe('with `state`', function() {
 		it('should not throw', function(done) {
 			//Execute + Verify
-			shallow(<PropSwitch prop={{}}/>);
+			shallow(<PropSwitch state={{loading:true, sync:false}}/>);
 			done();
 		});
 	});
 	
-	describe('with error', function() {
+	describe('with state.error defined', function() {
 		it('should render a default error when no <Error> block has been defined', function(done) {
 			//Execute
-			const component = shallow(<PropSwitch prop={{error: 'This is an error'}}/>);
+			const component = shallow(<PropSwitch state={{error: 'This is an error'}}/>);
 			//Verify
 			expect(component).to.have.html('<div><div style="display:block;">&quot;This is an error&quot;</div></div>');
 			done();
@@ -49,11 +49,11 @@ describe('<PropSwitch/>', function() {
 		
 		it('should render a custom error when a <Error> block has been defined', function(done) {
 			//Prepare
-			const prop = {error: 'This is an error'};
+			const state = {error: 'This is an error'};
 			//Execute
 			const component = shallow(
-				<PropSwitch prop={prop}>
-					<PropError>{prop.error}</PropError>
+				<PropSwitch state={state}>
+					<PropError>{state.error}</PropError>
 				</PropSwitch>
 			);
 			//Verify
@@ -62,12 +62,49 @@ describe('<PropSwitch/>', function() {
 		});
 	});
 	
-	describe('without error', function() {
-		it('should not render anything if there is no error', function(done) {
+	describe('with state.error not defined and no child', function() {
+		it('should not render anything', function(done) {
 			//Execute
-			const component = shallow(<PropSwitch prop={{}}/>);
+			const component = shallow(<PropSwitch state={{loading:true, sync:true}}/>);
 			//Verify
 			expect(component).to.have.html('<div></div>');
+			done();
+		});
+	});
+	
+	describe('with invalid state format', function() {
+		it('should throw an error', function(done) {
+			//Execute
+			const fn = () => {
+				shallow(
+					<PropSwitch state={{}}>
+						<PropInit>test</PropInit>
+					</PropSwitch>
+				);
+			};
+		    
+		    //Verify
+			expect(fn).to.throw(Error, 'requires the prop \`state\` to have \`loading\` and \`sync\` fields');
+			done();
+		});
+	});
+	
+	describe('with an invalid child component', function() {
+		it('should throw an error', function(done) {
+			//Prepare
+			const state = {error: 'This is an error'};
+			
+		    //Execute
+			const fn = () => {
+				shallow(
+					<PropSwitch state={state}>
+						<div>I cannot do that</div>
+					</PropSwitch>
+				);
+			};
+		    
+		    //Verify
+			expect(fn).to.throw(Error, '<PropSwitch> only accepts these elements');
 			done();
 		});
 	});
@@ -76,9 +113,14 @@ describe('<PropSwitch/>', function() {
 		it('should render only when data has not been fetched', function(done) {
 			//Prepare
 			//Execute
-			const component = shallow(<PropSwitch prop={{}}/>);
+			const component = shallow(
+				<PropSwitch state={{loading:false, sync:false}}>
+					<PropInit>init block</PropInit>
+				</PropSwitch>
+			);
+			
 			//Verify
-			expect(component).to.have.html('<div></div>');
+			expect(component).to.have.html('<div><div style="display:block;">init block</div></div>');
 			done();
 		});
 	});
