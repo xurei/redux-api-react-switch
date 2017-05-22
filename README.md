@@ -4,7 +4,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/xurei/redux-api-react-switch.svg)](https://github.com/xurei/redux-api-react-switch)
 [![GitHub issues](https://img.shields.io/github/issues/xurei/redux-api-react-switch.svg)](https://github.com/xurei/redux-api-react-switch/issues)
 
-Show different content based on the state of the resource
+A React+Redux component to work easily with REST states.
 
 ## Motivation
 
