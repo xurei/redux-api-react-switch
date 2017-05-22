@@ -1,6 +1,6 @@
 {
   "name": "redux-api-react-switch",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A React+Redux component to work easily with REST states",
   "main": "lib/index.js",
   "scripts": {
