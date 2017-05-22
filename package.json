@@ -2,13 +2,14 @@
   "name": "redux-api-react-switch",
   "version": "1.0.3",
   "description": "A React+Redux component to work easily with REST states",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "pretest": "node_modules/.bin/eslint .",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register tests",
     "coverage": "node_modules/.bin/babel-node ./node_modules/.bin/isparta cover --include 'src/**/*.js' _mocha -- --reporter dot tests",
     "postcoverage": "node_modules/.bin/codecov",
-    "prepublish": "rimraf lib/* && babel src -d lib"
+    "compile": "rimraf lib/* && babel src -d lib",
+    "prepublish": "npm run compile"
   },
   "config": {
     "blanket": {

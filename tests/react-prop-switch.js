@@ -9,7 +9,7 @@ chai.use(sinonChai);
 
 import { Switch as PropSwitch, Init as PropInit, FirstFetch as PropFirstFetch, Fetched as PropFetched,
 	NextFetch as PropNextFetch, FetchedOnce as PropFetchedOnce, AnyFetch as PropAnyFetch,
-	NotFetched as PropNotFetched, Error as PropError } from '../';
+	NotFetched as PropNotFetched, Error as PropError } from '../src';
 
 /** @namespace describe */
 /** @namespace it */
