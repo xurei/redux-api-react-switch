@@ -1,7 +1,7 @@
-const containers = require('./lib/react-prop-switch-containers');
+const containers = require('./src/react-prop-switch-containers');
 
 module.exports = {
-	Switch: require('./lib/react-prop-switch'),
+	Switch: require('./src/react-prop-switch'),
 	Init: containers.Init,
 	FirstFetch: containers.FirstFetch,
 	NextFetch: containers.NextFetch,
