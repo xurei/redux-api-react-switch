@@ -1,6 +1,8 @@
 const React = require('react');
 
-import { Init, FirstFetch, Fetched, NextFetch, Error as PropError } from './react-prop-switch-containers';
+import { Init, FirstFetch, Fetched, NextFetch,
+	AnyFetch, NotFetched, FetchedOnce,
+	Error as PropError } from './react-prop-switch-containers';
 
 class PropSwitch extends React.Component {
 	render() {
@@ -34,7 +36,12 @@ const acceptedElements = [
 	FirstFetch,
 	NextFetch,
 	Fetched,
-	PropError
+	
+	AnyFetch,
+	NotFetched,
+	FetchedOnce,
+	
+	PropError,
 ];
 
 PropSwitch.propTypes = {
