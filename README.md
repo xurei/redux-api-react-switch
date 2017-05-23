@@ -81,7 +81,12 @@ There are five "atomic" subcomponents :
 - `<NextFetch>`  : The data has already been fetched, but a new HTTP request is ongoing.
 - `<Error>`      : An error occured.
 
-As a complement, there are also some "combined" subcomponents :
+As a complement, there are also some "composite" subcomponents :
 - `<NotFetched>`  === `<Init + FirstFetch>`
 - `<AnyFetch>`    === `<FirstFetch + NextFetch>`
 - `<FetchedOnce>` === `<Fetched + NextFetch>`
+
+#### Events
+Each subcomponent has the following events :
+- `onMount()` : triggerred when the subcomponent is mounted.
+- `onUnmount()` : triggerred when the subcomponent is unmounted.

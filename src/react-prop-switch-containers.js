@@ -1,6 +1,17 @@
 const React = require('react');
+import { func } from 'prop-types';
 
 class PropSwitchGenericContainer extends React.Component {
+	componentDidMount() {
+		if (!!this.props.onMount) {
+			this.props.onMount();
+		}
+	}
+	componentWillUnmount() {
+		if (!!this.props.onUnmount) {
+			this.props.onUnmount();
+		}
+	}
 	render() {
 		return (
 			<div style={Object.assign({display: 'block'}, this.props.style)}>
@@ -9,6 +20,11 @@ class PropSwitchGenericContainer extends React.Component {
 		);
 	}
 }
+
+PropSwitchGenericContainer.propTypes = {
+	onMount: func,
+	onUnmount: func
+};
 
 //Atomic Containers
 class PropSwitchInit extends PropSwitchGenericContainer {}

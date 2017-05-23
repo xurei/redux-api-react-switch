@@ -8,7 +8,6 @@ class PropSwitch extends React.Component {
 	render() {
 		const itemsToRender = [];
 		
-		//Find the best match
 		for (var ch of React.Children.toArray(this.props.children)) {
 			if (ch.type.isMatching(this.props.state)) {
 				itemsToRender.push(ch);

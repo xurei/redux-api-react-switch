@@ -1,11 +1,12 @@
 import React from 'react';
 import chai, { expect } from 'chai';
 import chaiEnzyme from 'chai-enzyme';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 chai.use(chaiEnzyme());
 chai.use(sinonChai);
+require('jsdom-global')();
 
 import { Switch as PropSwitch, Init as PropInit, FirstFetch as PropFirstFetch, Fetched as PropFetched,
 	NextFetch as PropNextFetch, FetchedOnce as PropFetchedOnce, AnyFetch as PropAnyFetch,
@@ -156,6 +157,7 @@ describe('<PropSwitch/>', function() {
 	});
 	
 	describe('with all atomic children', function() {
+		//Prepare + Execute
 		const jsx = (state) => (
 			<PropSwitch state={state}>
 				<PropInit>init block</PropInit>
@@ -199,6 +201,50 @@ describe('<PropSwitch/>', function() {
 		it('should render <Error> in case of error', function(done) {
 			//Verify
 			expect(componentE).to.have.html('<div><div style="display:block;">error !!!</div></div>');
+			done();
+		});
+	});
+	
+	describe('with a subcomponent + onMount', function() {
+		it('should call onMount once', function(done) {
+			//Prepare
+			let onMountCalled = 0;
+			const component = mount(
+				<PropSwitch state={{loading:true, sync:true}}>
+					<PropFetched onMount={() => { onMountCalled++ }}>fetched</PropFetched>
+				</PropSwitch>
+			);
+			expect(onMountCalled).to.eq(0);
+			
+			//Execute
+			component.setProps({
+				state: {loading:false, sync:true}
+			});
+			
+			//Verify
+			expect(onMountCalled).to.eq(1);
+			done();
+		});
+	});
+	
+	describe('with a subcomponent + onUnmount', function() {
+		it('should call onUnmount once', function(done) {
+			//Prepare
+			let onUnmountCalled = 0;
+			const component = mount(
+				<PropSwitch state={{loading:false, sync:true}}>
+					<PropFetched onUnmount={() => { onUnmountCalled++ }}>fetched</PropFetched>
+				</PropSwitch>
+			);
+			expect(onUnmountCalled).to.eq(0);
+			
+			//Execute
+			component.setProps({
+				state: {loading:true, sync:true}
+			});
+			
+			//Verify
+			expect(onUnmountCalled).to.eq(1);
 			done();
 		});
 	});

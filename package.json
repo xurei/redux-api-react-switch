@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/xurei/redux-api-react-switch",
   "dependencies": {
+    "prop-types": "^15.5.10",
     "react": "^15.0.0"
   },
   "devDependencies": {
@@ -54,7 +55,10 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.0.1",
     "isparta": "^4.0.0",
+    "jsdom": "^11.0.0",
+    "jsdom-global": "^3.0.2",
     "mocha": "^3.4.1",
+    "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.5.4",
     "react-test-renderer": "^15.5.4",
     "react-tools": "^0.13.3",
