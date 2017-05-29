@@ -2,7 +2,8 @@
 	"plugins": [
 		"promise",
 		"jsx",
-		"react"
+		"react",
+		"security"
 	],
 
 	"parserOptions": {
