@@ -44,46 +44,6 @@ describe('<PropSwitch/>', function() {
 		});
 	});
 	
-	describe('shouldComponentUpdate()', function() {
-		const shouldComponentUpdate = sinon.spy(PropSwitch.prototype, 'shouldComponentUpdate');
-		
-		describe('when `state` didn\'t change', function() {
-			it('should return false', function(done) {
-				//Prepare
-				shouldComponentUpdate.reset();
-				const component = shallow(<PropSwitch state={{loading:true, sync:false}}/>);
-				
-				//Execute
-				component.setProps({
-					state: {loading:true, sync:false}
-				});
-				
-				//Verify
-				expect(shouldComponentUpdate).to.have.been.callCount(1);
-				expect(shouldComponentUpdate).to.have.returned(false);
-				done();
-			});
-		});
-		
-		describe('when `state` didn\'t change', function() {
-			it('should return false', function(done) {
-				//Prepare
-				shouldComponentUpdate.reset();
-				const component = shallow(<PropSwitch state={{loading:true, sync:false}}/>);
-				
-				//Execute
-				component.setProps({
-					state: {loading:true, sync:true}
-				});
-				
-				//Verify
-				expect(shouldComponentUpdate).to.have.been.callCount(1);
-				expect(shouldComponentUpdate).to.have.returned(true);
-				done();
-			});
-		});
-	});
-	
 	describe('with invalid `state` format', function() {
 		it('should throw an error', function(done) {
 			//Execute
@@ -245,6 +205,32 @@ describe('<PropSwitch/>', function() {
 			
 			//Verify
 			expect(onUnmountCalled).to.eq(1);
+			done();
+		});
+	});
+	
+	describe('with a subcomponent + change in the child component', function() {
+		it('should render again', function(done) {
+			//Prepare
+			const FakeComponent = (props) => (
+				<PropSwitch state={props.state}>
+					<PropFetched>
+						{props.value}
+					</PropFetched>
+				</PropSwitch>
+			);
+			
+			const component = mount(<FakeComponent state={{loading:false, sync:true}} value={23} />);
+			expect(component).to.have.html('<div data-reactroot=""><div style="display: block;">23</div></div>');
+			
+			//Execute
+			component.setProps({
+				state: {loading:false, sync:true},
+				value: 42
+			});
+			
+			//Verify
+			expect(component).to.have.html('<div data-reactroot=""><div style="display: block;">42</div></div>');
 			done();
 		});
 	});

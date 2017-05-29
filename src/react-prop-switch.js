@@ -24,10 +24,6 @@ class PropSwitch extends React.Component {
 			</div>
 		);
 	}
-	
-	shouldComponentUpdate(nextProps) {
-		return JSON.stringify(this.props.state) !== JSON.stringify(nextProps.state);
-	}
 }
 
 const acceptedElements = [
