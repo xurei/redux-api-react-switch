@@ -1,7 +1,7 @@
 # redux-api-react-switch
 [![npm](https://img.shields.io/npm/v/redux-api-react-switch.svg)](https://github.com/xurei/redux-api-react-switch)
 [![Wercker](https://img.shields.io/wercker/ci/wercker/docs.svg)](https://app.wercker.com/xurei/redux-api-react-switch/runs)
-[![Codecov](https://img.shields.io/codecov/c/github/xurei/redux-api-react-switch.svg)](https://github.com/xurei/redux-api-react-switch)
+[![Codecov](https://img.shields.io/codecov/c/github/xurei/redux-api-react-switch.svg)](https://codecov.io/gh/xurei/redux-api-react-switch)
 [![GitHub issues](https://img.shields.io/github/issues/xurei/redux-api-react-switch.svg)](https://github.com/xurei/redux-api-react-switch/issues)
 [![Codacy grade](https://img.shields.io/codacy/grade/0667abf3801343e98de077f34f07819b.svg)](https://www.codacy.com/app/xurei/redux-api-react-switch)
 
