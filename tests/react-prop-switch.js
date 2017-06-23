@@ -2,7 +2,6 @@ import React from 'react';
 import chai, { expect } from 'chai';
 import chaiEnzyme from 'chai-enzyme';
 import { shallow, mount } from 'enzyme';
-import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 chai.use(chaiEnzyme());
 chai.use(sinonChai);
@@ -10,7 +9,7 @@ require('jsdom-global')();
 
 import { Switch as PropSwitch, Init as PropInit, FirstFetch as PropFirstFetch, Fetched as PropFetched,
 	NextFetch as PropNextFetch, FetchedOnce as PropFetchedOnce, AnyFetch as PropAnyFetch,
-	NotFetched as PropNotFetched, Error as PropError } from '../src';
+	NotFetched as PropNotFetched, AnyResult as PropAnyResult, FetchedOnceOrError as PropFetchedOnceOrError, Error as PropError } from '../src';
 
 /** @namespace describe */
 /** @namespace it */
@@ -251,22 +250,8 @@ describe('<PropSwitch/>', function() {
 				</PropSwitch>
 			);
 			
-			//Execute
-			const componentFFA = shallow(jsxA({loading:false, sync:false}));
-			const componentTFA = shallow(jsxA({loading:true, sync:false}));
-			const componentFTA = shallow(jsxA({loading:false, sync:true}));
-			const componentTTA = shallow(jsxA({loading:true, sync:true}));
-			
-			const componentFFB = shallow(jsxB({loading:false, sync:false}));
-			const componentTFB = shallow(jsxB({loading:true, sync:false}));
-			const componentFTB = shallow(jsxB({loading:false, sync:true}));
-			const componentTTB = shallow(jsxB({loading:true, sync:true}));
-			
-		    //Verify
-			expect(componentFFA).to.have.html(componentFFB.html());
-			expect(componentFTA).to.have.html(componentFTB.html());
-			expect(componentTFA).to.have.html(componentTFB.html());
-			expect(componentTTA).to.have.html(componentTTB.html());
+			//Execute + Verify
+			testAllStates(jsxA, jsxB);
 		 
 			done();
 		});
@@ -288,22 +273,56 @@ describe('<PropSwitch/>', function() {
 				</PropSwitch>
 			);
 			
-			//Execute
-			const componentFFA = shallow(jsxA({loading:false, sync:false}));
-			const componentTFA = shallow(jsxA({loading:true, sync:false}));
-			const componentFTA = shallow(jsxA({loading:false, sync:true}));
-			const componentTTA = shallow(jsxA({loading:true, sync:true}));
+			//Execute + Verify
+			testAllStates(jsxA, jsxB);
 			
-			const componentFFB = shallow(jsxB({loading:false, sync:false}));
-			const componentTFB = shallow(jsxB({loading:true, sync:false}));
-			const componentFTB = shallow(jsxB({loading:false, sync:true}));
-			const componentTTB = shallow(jsxB({loading:true, sync:true}));
+			done();
+		});
+	});
+	
+	describe('<FetchedOnceOrError/>', function() {
+		it('is the same as <Fetched>+<NextFetch>+<Error>', function(done) {
+			//Prepare
+			const jsxA = (state) => (
+				<PropSwitch state={state}>
+					<PropFetchedOnceOrError>fetched once or error</PropFetchedOnceOrError>
+				</PropSwitch>
+			);
 			
-			//Verify
-			expect(componentFFA).to.have.html(componentFFB.html());
-			expect(componentFTA).to.have.html(componentFTB.html());
-			expect(componentTFA).to.have.html(componentTFB.html());
-			expect(componentTTA).to.have.html(componentTTB.html());
+			const jsxB = (state) => (
+				<PropSwitch state={state}>
+					<PropFetched>fetched once or error</PropFetched>
+					<PropNextFetch>fetched once or error</PropNextFetch>
+					<PropError>fetched once or error</PropError>
+				</PropSwitch>
+			);
+			
+			//Execute + Verify
+			testAllStates(jsxA, jsxB);
+			
+			done();
+		});
+	});
+	
+	describe('<AnyResult/>', function() {
+		it('is the same as <Fetched>+<NextFetch>+<Error>', function(done) {
+			//Prepare
+			const jsxA = (state) => (
+				<PropSwitch state={state}>
+					<PropAnyResult>fetched once or error</PropAnyResult>
+				</PropSwitch>
+			);
+			
+			const jsxB = (state) => (
+				<PropSwitch state={state}>
+					<PropFetched>fetched once or error</PropFetched>
+					<PropNextFetch>fetched once or error</PropNextFetch>
+					<PropError>fetched once or error</PropError>
+				</PropSwitch>
+			);
+			
+			//Execute + Verify
+			testAllStates(jsxA, jsxB);
 			
 			done();
 		});
@@ -325,24 +344,36 @@ describe('<PropSwitch/>', function() {
 				</PropSwitch>
 			);
 			
-			//Execute
-			const componentFFA = shallow(jsxA({loading:false, sync:false}));
-			const componentTFA = shallow(jsxA({loading:true, sync:false}));
-			const componentFTA = shallow(jsxA({loading:false, sync:true}));
-			const componentTTA = shallow(jsxA({loading:true, sync:true}));
-			
-			const componentFFB = shallow(jsxB({loading:false, sync:false}));
-			const componentTFB = shallow(jsxB({loading:true, sync:false}));
-			const componentFTB = shallow(jsxB({loading:false, sync:true}));
-			const componentTTB = shallow(jsxB({loading:true, sync:true}));
-			
-			//Verify
-			expect(componentFFA).to.have.html(componentFFB.html());
-			expect(componentFTA).to.have.html(componentFTB.html());
-			expect(componentTFA).to.have.html(componentTFB.html());
-			expect(componentTTA).to.have.html(componentTTB.html());
+			//Execute + Verify
+			testAllStates(jsxA, jsxB);
 			
 			done();
 		});
 	});
 });
+
+function testAllStates(jsxA, jsxB) {
+	const loadings = [true, false];
+	const syncs = [true, false];
+	const errs = [null, 'error'];
+	
+	const attribs = [ loadings, syncs, errs ];
+	const fields = ['loading', 'sync', 'error'];
+	
+	function _recur(attribs, fields, acc) {
+		if (attribs.length === 0) {
+			const componentA = shallow(jsxA(acc));
+			const componentB = shallow(jsxB(acc));
+			expect(componentA).to.have.html(componentB.html());
+		}
+		else {
+			attribs[0].forEach((v) => {
+				const obj = {};
+				obj[fields[0]] = v;
+				const newAcc = Object.assign({}, acc, obj);
+				_recur(attribs.slice(1), fields.slice(1), newAcc);
+			})
+		}
+	}
+	_recur(attribs, fields);
+}

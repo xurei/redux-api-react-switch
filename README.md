@@ -86,6 +86,7 @@ As a complement, there are also some "composite" subcomponents :
 - `<NotFetched>`  === `<Init + FirstFetch>`
 - `<AnyFetch>`    === `<FirstFetch + NextFetch>`
 - `<FetchedOnce>` === `<Fetched + NextFetch>`
+- `<AnyResult>`   === `<FetchedOnceOrError>`   === `<Fetched + NextFetch + Error>`
 
 #### Events
 Each subcomponent has the following events :

@@ -55,6 +55,10 @@ AnyFetch.isMatching = (prop) => FirstFetch.isMatching(prop) || NextFetch.isMatch
 class FetchedOnce extends PropSwitchGenericContainer {}
 FetchedOnce.isMatching = (prop) => Fetched.isMatching(prop) || NextFetch.isMatching(prop);
 
+//Fetched+NextFetch+Error = FetchedOnceOrError = AnyResult
+class FetchedOnceOrError extends PropSwitchGenericContainer {}
+FetchedOnceOrError.isMatching = (prop) => FetchedOnce.isMatching(prop) || Error.isMatching(prop);
+
 module.exports = {
 	Init: Init,
 	FirstFetch: FirstFetch,
@@ -65,4 +69,6 @@ module.exports = {
 	AnyFetch: AnyFetch,
 	FetchedOnce: FetchedOnce,
 	NotFetched: NotFetched,
+	FetchedOnceOrError: FetchedOnceOrError,
+	AnyResult: FetchedOnceOrError,
 };

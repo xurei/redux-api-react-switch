@@ -11,4 +11,6 @@ module.exports = {
 	AnyFetch: containers.AnyFetch,
 	FetchedOnce: containers.FetchedOnce,
 	NotFetched: containers.NotFetched,
+	FetchedOnceOrError: containers.FetchedOnceOrError,
+	AnyResult: containers.FetchedOnceOrError,
 };
