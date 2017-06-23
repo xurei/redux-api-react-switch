@@ -27,42 +27,42 @@ PropSwitchGenericContainer.propTypes = {
 };
 
 //Atomic Containers
-class PropSwitchInit extends PropSwitchGenericContainer {}
-PropSwitchInit.isMatching = (prop) => (!prop.error && prop.sync === false && prop.loading === false);
+class Init extends PropSwitchGenericContainer {}
+Init.isMatching = (prop) => (!prop.error && prop.sync === false && prop.loading === false);
 
-class PropSwitchFirstFetch extends PropSwitchGenericContainer {}
-PropSwitchFirstFetch.isMatching = (prop) => (!prop.error && prop.sync === false && prop.loading === true);
+class FirstFetch extends PropSwitchGenericContainer {}
+FirstFetch.isMatching = (prop) => (!prop.error && prop.sync === false && prop.loading === true);
 
-class PropSwitchNextFetch extends PropSwitchGenericContainer {}
-PropSwitchNextFetch.isMatching = (prop) => (!prop.error && prop.sync === true && prop.loading === true);
+class NextFetch extends PropSwitchGenericContainer {}
+NextFetch.isMatching = (prop) => (!prop.error && prop.sync === true && prop.loading === true);
 
-class PropSwitchFetched extends PropSwitchGenericContainer {}
-PropSwitchFetched.isMatching = (prop) => (!prop.error && prop.sync === true && prop.loading === false);
+class Fetched extends PropSwitchGenericContainer {}
+Fetched.isMatching = (prop) => (!prop.error && prop.sync === true && prop.loading === false);
 
-class PropSwitchError extends PropSwitchGenericContainer {}
-PropSwitchError.isMatching = (prop) => (!!prop.error);
+class Error extends PropSwitchGenericContainer {}
+Error.isMatching = (prop) => (!!prop.error);
 
 //Combined Containers
 //Init+FirstFetch = NotFetched
-class PropSwitchNotFetched extends PropSwitchGenericContainer {}
-PropSwitchNotFetched.isMatching = (prop) => PropSwitchInit.isMatching(prop) || PropSwitchFirstFetch.isMatching(prop);
+class NotFetched extends PropSwitchGenericContainer {}
+NotFetched.isMatching = (prop) => Init.isMatching(prop) || FirstFetch.isMatching(prop);
 
 //FirstFetch+NextFetch = AnyFetch
-class PropSwitchAnyFetch extends PropSwitchGenericContainer {}
-PropSwitchAnyFetch.isMatching = (prop) => PropSwitchFirstFetch.isMatching(prop) || PropSwitchNextFetch.isMatching(prop);
+class AnyFetch extends PropSwitchGenericContainer {}
+AnyFetch.isMatching = (prop) => FirstFetch.isMatching(prop) || NextFetch.isMatching(prop);
 
 //Fetched+NextFetch = FetchedOnce
-class PropSwitchFetchedOnce extends PropSwitchGenericContainer {}
-PropSwitchFetchedOnce.isMatching = (prop) => PropSwitchFetched.isMatching(prop) || PropSwitchNextFetch.isMatching(prop);
+class FetchedOnce extends PropSwitchGenericContainer {}
+FetchedOnce.isMatching = (prop) => Fetched.isMatching(prop) || NextFetch.isMatching(prop);
 
 module.exports = {
-	Init: PropSwitchInit,
-	FirstFetch: PropSwitchFirstFetch,
-	NextFetch: PropSwitchNextFetch,
-	Fetched: PropSwitchFetched,
-	Error: PropSwitchError,
+	Init: Init,
+	FirstFetch: FirstFetch,
+	NextFetch: NextFetch,
+	Fetched: Fetched,
+	Error: Error,
 	
-	AnyFetch: PropSwitchAnyFetch,
-	FetchedOnce: PropSwitchFetchedOnce,
-	NotFetched: PropSwitchNotFetched,
+	AnyFetch: AnyFetch,
+	FetchedOnce: FetchedOnce,
+	NotFetched: NotFetched,
 };
