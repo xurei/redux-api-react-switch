@@ -15,7 +15,7 @@ class PropSwitch extends React.Component {
 		}
 		
 		if (!!this.props.state.error && itemsToRender.length===0) {
-			itemsToRender.push(<div key='err' style={{display:'block'}}>{JSON.stringify(this.props.state.error)}</div>);
+			itemsToRender.push(<div key='err'>{JSON.stringify(this.props.state.error)}</div>);
 		}
 		
 		return (
@@ -59,10 +59,10 @@ PropSwitch.propTypes = {
 	},
 	
 	children: (props, propName, componentName) => {
-		const out = React.Children.toArray(props[propName])
-		.find(child => !acceptedElements.find((element) => (child.type === element)))
-		&& new Error(`<${componentName}> only accepts these elements : <Init>, <FirstFetch>, <Fetched>, <NextFetch>, <Error>`);
-		return out;
+		return (
+			React.Children.toArray(props[propName])
+			.find(child => !acceptedElements.find((element) => (child.type === element)))
+		) && new Error(`<${componentName}> only accepts these elements : <Init>, <FirstFetch>, <Fetched>, <NextFetch>, <Error>`);
 	},
 };
 

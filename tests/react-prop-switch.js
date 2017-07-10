@@ -66,7 +66,7 @@ describe('<PropSwitch/>', function() {
 			//Execute
 			const component = shallow(<PropSwitch state={{error: 'This is an error'}}/>);
 			//Verify
-			expect(component).to.have.html('<div><div style="display:block;">&quot;This is an error&quot;</div></div>');
+			expect(component).to.have.html('<div><div>&quot;This is an error&quot;</div></div>');
 			done();
 		});
 		
@@ -80,7 +80,7 @@ describe('<PropSwitch/>', function() {
 				</PropSwitch>
 			);
 			//Verify
-			expect(component).to.have.html('<div><div style="display:block;">This is an error</div></div>');
+			expect(component).to.have.html('<div><div>This is an error</div></div>');
 			done();
 		});
 	});
@@ -135,31 +135,31 @@ describe('<PropSwitch/>', function() {
 		
 		it('should render <Init> when data has not been fetched', function(done) {
 			//Verify
-			expect(componentFF).to.have.html('<div><div style="display:block;">init block</div></div>');
+			expect(componentFF).to.have.html('<div><div>init block</div></div>');
 			done();
 		});
 		
 		it('should render <FirstFetch> during the first fetch', function(done) {
 			//Verify
-			expect(componentTF).to.have.html('<div><div style="display:block;">first fetch</div></div>');
+			expect(componentTF).to.have.html('<div><div>first fetch</div></div>');
 			done();
 		});
 		
 		it('should render <PropFetched>\'s when data has been fetched', function(done) {
 			//Verify
-			expect(componentFT).to.have.html('<div><div style="display:block;">fetched</div><div style="display:block;">fetched 2</div></div>');
+			expect(componentFT).to.have.html('<div><div>fetched</div><div>fetched 2</div></div>');
 			done();
 		});
 		
 		it('should render <NextFetch> during any non-first fetch', function(done) {
 			//Verify
-			expect(componentTT).to.have.html('<div><div style="display:block;">nextFetch</div></div>');
+			expect(componentTT).to.have.html('<div><div>nextFetch</div></div>');
 			done();
 		});
 		
 		it('should render <Error> in case of error', function(done) {
 			//Verify
-			expect(componentE).to.have.html('<div><div style="display:block;">error !!!</div></div>');
+			expect(componentE).to.have.html('<div><div>error !!!</div></div>');
 			done();
 		});
 	});
@@ -220,7 +220,7 @@ describe('<PropSwitch/>', function() {
 			);
 			
 			const component = mount(<FakeComponent state={{loading:false, sync:true}} value={23} />);
-			expect(component).to.have.html('<div data-reactroot=""><div style="display: block;">23</div></div>');
+			expect(component).to.have.html('<div data-reactroot=""><div>23</div></div>');
 			
 			//Execute
 			component.setProps({
@@ -229,7 +229,7 @@ describe('<PropSwitch/>', function() {
 			});
 			
 			//Verify
-			expect(component).to.have.html('<div data-reactroot=""><div style="display: block;">42</div></div>');
+			expect(component).to.have.html('<div data-reactroot=""><div>42</div></div>');
 			done();
 		});
 	});
@@ -254,6 +254,34 @@ describe('<PropSwitch/>', function() {
 			testAllStates(jsxA, jsxB);
 		 
 			done();
+		});
+		it('should not render the content before the state is matching', function() {
+			//Prepare
+			let hasBeenRendered = false;
+			const MyComponent = () => {
+				hasBeenRendered = true;
+				console.log('rendering');
+				
+				return (<div>OK</div>)
+			};
+			
+			const jsx = (state) => (
+				<PropSwitch state={state}>
+					<PropFetchedOnce>
+						<MyComponent/>
+					</PropFetchedOnce>
+				</PropSwitch>
+			);
+			
+			//Execute + Verify (1)
+			const componentA = shallow(jsx({loading:true, sync:false, data: {}}));
+			console.log(componentA.html());
+			expect(hasBeenRendered).to.eq(false);
+			
+			//Execute + Verify (2)
+			const componentB = shallow(jsx({loading:false, sync:true, data: { ok :true }}));
+			console.log(componentB.html());
+			expect(hasBeenRendered).to.eq(true);
 		});
 	});
 	

@@ -14,7 +14,7 @@ class PropSwitchGenericContainer extends React.Component {
 	}
 	render() {
 		return (
-			<div style={Object.assign({display: 'block'}, this.props.style)}>
+			<div style={this.props.style}>
 				{this.props.children}
 			</div>
 		);
