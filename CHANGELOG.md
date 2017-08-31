@@ -1,3 +1,6 @@
+## 1.0.9 - 2017-08-31
+- Multi-states support
+
 ## 1.0.8 - 2017-06-23
 - Added FetchedOnceOrError == AnyResult
 

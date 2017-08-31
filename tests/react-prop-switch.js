@@ -41,7 +41,7 @@ describe('<PropSwitch/>', function() {
 	});
 	
 	describe('with invalid `state` format', function() {
-		it('should throw an error', function(done) {
+		it('should throw', function(done) {
 			//Execute
 			const fn = () => {
 				shallow(
@@ -53,8 +53,119 @@ describe('<PropSwitch/>', function() {
 			};
 			
 			//Verify
-			expect(fn).to.throw(Error, 'requires the prop \`state\` to have \`loading\` and \`sync\` fields');
+			expect(fn).to.throw(Error, 'requires the prop `state` to have `loading` and `sync` fields');
 			done();
+		});
+	});
+	
+	describe('with an array of states', function() {
+		describe('and one state has not the right format', function() {
+			it('should throw', function(done) {
+				//Prepare
+				const fn = () => {
+					shallow(<PropSwitch
+						state={[{loading: true, sync: false}, {loading: false, sync: false}, {not: 'compliant'}]}/>);
+				};
+				
+				//Execute + Verify
+				expect(fn).to.throw(Error, 'requires the prop `state` to be an array of objects having `loading` and `sync` fields');
+				done();
+			});
+		});
+		
+		describe('and the formats are correct', function() {
+			const FakeComponent = (props) => (
+				<PropSwitch state={props.state}>
+					<PropFirstFetch>
+						Loading
+					</PropFirstFetch>
+					<PropNextFetch>
+						Reloading
+					</PropNextFetch>
+					<PropFetched>
+						Fetched
+					</PropFetched>
+					<PropError>
+						Error
+					</PropError>
+				</PropSwitch>
+			);
+			
+			it('should not throw', function(done) {
+				//Execute + Verify
+				shallow(<PropSwitch state={[{loading: true, sync: false}, {loading: false, sync: false}]}/>);
+				done();
+			});
+			
+			describe('with all loading', function() {
+				it('should render the loading view', function() {
+					//Execute
+					const component = mount(<FakeComponent state={[{loading: true, sync: false}, {loading: true, sync: false}]} />);
+					
+					//Verify
+					expect(component).to.have.html('<div data-reactroot=""><div>Loading</div></div>');
+				});
+			});
+			
+			describe('with one loading and the rest loaded', function() {
+				it('should render the loading view', function() {
+					//Execute
+					const component = mount(<FakeComponent state={[{loading: true, sync: false}, {loading: false, sync: true}]} />);
+					
+					//Verify
+					expect(component).to.have.html('<div data-reactroot=""><div>Loading</div></div>');
+				});
+			});
+			
+			describe('with one error and the rest loading', function() {
+				it('should render the error view', function() {
+					//Execute
+					const component = mount(<FakeComponent state={[{loading: true, sync: false}, {loading: false, sync: false, error: 'some error'}]} />);
+					
+					//Verify
+					expect(component).to.have.html('<div data-reactroot=""><div>Error</div></div>');
+				});
+			});
+			
+			describe('with one error and the rest loaded', function() {
+				it('should render the error view', function() {
+					//Execute
+					const component = mount(<FakeComponent state={[{loading: false, sync: true, data: 42}, {loading: false, sync: false, error: 'some error'}]} />);
+					
+					//Verify
+					expect(component).to.have.html('<div data-reactroot=""><div>Error</div></div>');
+				});
+			});
+			
+			describe('with all error', function() {
+				it('should render the error view', function() {
+					//Execute
+					const component = mount(<FakeComponent state={[{loading: false, sync: true, error: 'some error'}, {loading: false, sync: false, error: 'some error'}]} />);
+					
+					//Verify
+					expect(component).to.have.html('<div data-reactroot=""><div>Error</div></div>');
+				});
+			});
+			
+			describe('with all loaded', function() {
+				it('should render the loaded view', function() {
+					//Execute
+					const component = mount(<FakeComponent state={[{loading: false, sync: true, data: 42}, {loading: false, sync: true, data: 42}]} />);
+					
+					//Verify
+					expect(component).to.have.html('<div data-reactroot=""><div>Fetched</div></div>');
+				});
+			});
+			
+			describe('with all loaded and one reloading', function() {
+				it('should render the reloading view', function() {
+					//Execute
+					const component = mount(<FakeComponent state={[{loading: true, sync: true, data: 42}, {loading: false, sync: true, data: 42}]} />);
+					
+					//Verify
+					expect(component).to.have.html('<div data-reactroot=""><div>Reloading</div></div>');
+				});
+			});
 		});
 	});
 	
@@ -397,7 +508,7 @@ function testAllStates(jsxA, jsxB) {
 				obj[fields[0]] = v;
 				const newAcc = Object.assign({}, acc, obj);
 				_recur(attribs.slice(1), fields.slice(1), newAcc);
-			})
+			});
 		}
 	}
 	_recur(attribs, fields);

@@ -7,15 +7,16 @@ import { Init, FirstFetch, Fetched, NextFetch,
 class PropSwitch extends React.Component {
 	render() {
 		const itemsToRender = [];
+		const state = mergeStates(this.props.state);
 		
 		for (var ch of React.Children.toArray(this.props.children)) {
-			if (ch.type.isMatching(this.props.state)) {
+			if (ch.type.isMatching(state)) {
 				itemsToRender.push(ch);
 			}
 		}
 		
-		if (!!this.props.state.error && itemsToRender.length===0) {
-			itemsToRender.push(<div key={`err-${itemsToRender.length}`}>{JSON.stringify(this.props.state.error)}</div>);
+		if (!!state.error && itemsToRender.length===0) {
+			itemsToRender.push(<div key={`err-${itemsToRender.length}`}>{JSON.stringify(state.error)}</div>);
 		}
 		
 		return (
@@ -42,18 +43,59 @@ const acceptedElements = [
 	PropError,
 ];
 
+function mergeStates(states) {
+	if (!Array.isArray(states)) {
+		return states;
+	}
+	else {
+		const out = {
+			loading: false,
+			sync: true,
+			error: null
+		};
+		states.forEach(state => {
+			out.loading |= state.loading;
+			out.sync &= state.sync;
+			if (state.error && !out.error) {
+				out.error = state.error;
+			}
+		});
+		out.loading = Boolean(out.loading);
+		out.sync = Boolean(out.sync);
+		return out;
+	}
+}
+
+function checkStateSchema(prop, propName, componentName) {
+	if (typeof(prop) !== 'object' || Array.isArray(prop)) {
+		return new Error(`<${componentName}> requires the prop \`${propName}\``);
+	}
+	else {
+		if (typeof(prop.error) === 'undefined' || !prop.error) {
+			if (typeof(prop.loading) === 'undefined' || typeof(prop.sync) === 'undefined') {
+				return new Error(`<${componentName}> requires the prop \`${propName}\` to have \`loading\` and \`sync\` fields`);
+			}
+		}
+	}
+	return null;
+}
+
 PropSwitch.propTypes = {
 	state: (props, propName, componentName) => {
 		const prop = props[propName];
-		if (typeof(prop) !== 'object') {
-			return new Error(`<${componentName}> requires the prop \`${propName}\``);
+		
+		if (Array.isArray(prop)) {
+			const errors = (
+				prop
+				.map(substate => checkStateSchema(substate, propName, componentName))
+				.filter(r => r !== null)
+			);
+			if (errors.length > 0) {
+				return new Error(`<${componentName}> requires the prop \`${propName}\` to be an array of objects having \`loading\` and \`sync\` fields`);
+			}
 		}
 		else {
-			if (typeof(prop.error) === 'undefined' || !prop.error) {
-				if (typeof(prop.loading) === 'undefined' || typeof(prop.sync) === 'undefined') {
-					return new Error(`<${componentName}> requires the prop \`${propName}\` to have \`loading\` and \`sync\` fields`);
-				}
-			}
+			return checkStateSchema(prop, propName, componentName);
 		}
 		return null;
 	},
