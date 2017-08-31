@@ -11,7 +11,7 @@
     "preversion": "npm test",
     "precompile": "npm test",
     "compile": "rimraf lib/* && babel src -d lib",
-    "prepublish": "npm run compile"
+    "prepublishOnly": "npm run compile"
   },
   "config": {
     "blanket": {
@@ -37,36 +37,34 @@
   "homepage": "https://github.com/xurei/redux-api-react-switch",
   "dependencies": {
     "prop-types": "^15.5.10",
-    "react": "^15.0.0"
+    "react": "^15.6.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-loader": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "blanket": "^1.2.3",
-    "browser-sync": "^2.18.11",
-    "browser-sync-webpack-plugin": "^1.1.4",
+    "browser-sync": "^2.18.13",
+    "browser-sync-webpack-plugin": "^1.2.0",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.6.1",
-    "codecov": "^2.2.0",
-    "enzyme": "^2.8.2",
+    "codecov": "^2.3.0",
+    "enzyme": "^2.9.1",
     "eslint": "^3.19.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^7.0.1",
-    "eslint-plugin-security": "^1.3.0",
+    "eslint-config-xurei": "^1.0.0",
     "isparta": "^4.0.0",
-    "jsdom": "^11.0.0",
+    "jsdom": "^11.2.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^3.4.1",
-    "react-addons-test-utils": "^15.5.1",
-    "react-dom": "^15.5.4",
-    "react-test-renderer": "^15.5.4",
+    "mocha": "^3.5.0",
+    "react-addons-test-utils": "^15.6.0",
+    "react-dom": "^15.6.1",
+    "react-test-renderer": "^15.6.1",
     "react-tools": "^0.13.3",
     "rimraf": "^2.6.1",
-    "sinon": "^2.2.0",
-    "sinon-chai": "^2.10.0",
-    "webpack": "^2.5.1"
+    "sinon": "^2.4.1",
+    "sinon-chai": "^2.13.0",
+    "webpack": "^2.7.0"
   }
 }
