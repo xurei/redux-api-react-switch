@@ -72,7 +72,7 @@ module.exports = ReactRedux.connect(
 ## Components
 
 The Main component is `<Switch>`. 
-It takes only one prop : `state`. 
+It takes only one prop : `state`, that can be a state object or an array of state objects.
 It can only contains the subcomponent described below.
 
 There are five "atomic" subcomponents : 
