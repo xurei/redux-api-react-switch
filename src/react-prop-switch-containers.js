@@ -3,12 +3,12 @@ import { func } from 'prop-types';
 
 class PropSwitchGenericContainer extends React.Component {
 	componentDidMount() {
-		if (!!this.props.onMount) {
+		if (this.props.onMount) {
 			this.props.onMount();
 		}
 	}
 	componentWillUnmount() {
-		if (!!this.props.onUnmount) {
+		if (this.props.onUnmount) {
 			this.props.onUnmount();
 		}
 	}

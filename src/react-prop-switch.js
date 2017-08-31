@@ -15,7 +15,7 @@ class PropSwitch extends React.Component {
 		}
 		
 		if (!!this.props.state.error && itemsToRender.length===0) {
-			itemsToRender.push(<div key='err'>{JSON.stringify(this.props.state.error)}</div>);
+			itemsToRender.push(<div key={`err-${itemsToRender.length}`}>{JSON.stringify(this.props.state.error)}</div>);
 		}
 		
 		return (
