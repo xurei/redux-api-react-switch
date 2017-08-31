@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import React from 'react';
 import chai, { expect } from 'chai';
 import chaiEnzyme from 'chai-enzyme';
@@ -10,11 +12,6 @@ require('jsdom-global')();
 import { Switch as PropSwitch, Init as PropInit, FirstFetch as PropFirstFetch, Fetched as PropFetched,
 	NextFetch as PropNextFetch, FetchedOnce as PropFetchedOnce, AnyFetch as PropAnyFetch,
 	NotFetched as PropNotFetched, AnyResult as PropAnyResult, FetchedOnceOrError as PropFetchedOnceOrError, Error as PropError } from '../src';
-
-/** @namespace describe */
-/** @namespace it */
-/** @namespace beforeEach */
-/** @namespace before */
 
 let console_error = console.error;
 console.error = function(warning) {
@@ -100,7 +97,7 @@ describe('<PropSwitch/>', function() {
 			//Prepare
 			const state = {error: 'This is an error'};
 			
-		    //Execute
+			//Execute
 			const fn = () => {
 				shallow(
 					<PropSwitch state={state}>
@@ -108,8 +105,8 @@ describe('<PropSwitch/>', function() {
 					</PropSwitch>
 				);
 			};
-		    
-		    //Verify
+			
+			//Verify
 			expect(fn).to.throw(Error, '<PropSwitch> only accepts these elements');
 			done();
 		});
@@ -252,7 +249,7 @@ describe('<PropSwitch/>', function() {
 			
 			//Execute + Verify
 			testAllStates(jsxA, jsxB);
-		 
+			
 			done();
 		});
 		it('should not render the content before the state is matching', function() {
